@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Store_JS_Search</title>
+
+    <!-- WinJS references -->
+    <link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
+    <script src="js/datafile.js"></script>
+
+    <!-- Store_JS_Search references -->
+    <link href="/css/default.css" rel="stylesheet" />
+    <script src="/js/default.js"></script>
+
+    <!--Adding a Search-->
+    <script src="searchResults.js"></script>
+
+    <script type="text/javascript">
+        WinJS.UI.processAll().then(function () {
+            //Add Event to the ListView
+            document.getElementById('lstViewData').addEventListener('iteminvoked', itemselected, false);
+
+        })
+        function itemselected(evt) {
+            var item = evt.detail.itemPromise._value; //Read the selected value
+
+            document.getElementById("dvhtml").innerHTML = ' '; //clear the <div>
+            //Locate the <div> to host the rendered Html page
+            var renderHost = document.querySelector(".renderingPageControls-renderedControl");
+            //render the EmployeeShared.html page in the <div>
+            WinJS.UI.Pages.render("EmployeeShared.html", renderHost, { item: item });
+
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+    <p>Content goes here</p>
+
+
+
+    <div id="EmpDataTemplate" data-win-control="WinJS.Binding.Template">
+        <table>
+            <thead>
+                <tr>
+                    <td>EmpNo</td>
+                    <td>EmpName</td>
+                    <td>DeptName</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <label data-win-bind="innerText: EmpNo"></label>
+                    </td>
+                    <td>
+                        <label data-win-bind="innerText: EmpName"></label>
+                    </td>
+                    <td>
+                        <label data-win-bind="innerText: DeptName"></label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div id="lstViewData"
+        data-win-control="WinJS.UI.ListView"
+        data-win-options="{itemDataSource:EmpDataListExample.empDataList.dataSource,itemTemplate:select('#EmpDataTemplate')}">
+    </div>
+
+    <p>
+        Selected Employee
+    </p>
+    <div class="renderingPageControls-renderedControl" id="dvhtml"></div>
+</body>
+</html>
